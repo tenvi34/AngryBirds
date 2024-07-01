@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public static CameraFollow instance;  // 싱글톤 인스턴스
-    public Transform target;  // 카메라가 따라갈 대상
-    public float followSpeed = 2f;  // 카메라가 따라가는 속도
-    public Vector3 offset;  // 카메라의 오프셋
+    public static CameraFollow instance; // 싱글톤 인스턴스
+    [SerializeField] private Transform target; // 카메라가 따라갈 대상
+    public float followSpeed = 2f; // 카메라가 따라가는 속도
+    public Vector3 offset; // 카메라의 오프셋
+    private bool followTarget = true;
 
     void Awake()
     {
@@ -31,8 +32,13 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
-    public void FollowBird(Transform bird)
+    public void FollowTarget(Transform _target)
     {
-        target = bird;
+        target = _target;
+    }
+
+    public void EnableFollowTarget(bool enable)
+    {
+        followTarget = enable;
     }
 }
