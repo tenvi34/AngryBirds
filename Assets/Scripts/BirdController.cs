@@ -15,7 +15,7 @@ public class BirdController : MonoBehaviour
     private bool isDragging = false; // 드래그 상태 확인
     private bool isPanning = false; // 화면 이동 상태 확인
     private bool canLaunch = true; // 발사 가능 확인
-    private Vector3 lastPanPosition; // 마지막 팬 위치
+    private Vector3 lastPanPosition; // 마지막 화면 위치
 
     private CameraFollow cameraFollow;
 
@@ -29,7 +29,7 @@ public class BirdController : MonoBehaviour
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
         SpawnBird();
 
-        // LineRenderer 설정
+        // LineRenderer 설정 -> 임시 테스트 코드라 추후 Inspector 창에서 재설정 할 예정
         _renderer.startWidth = 0.1f;
         _renderer.endWidth = 0.1f;
         _renderer.material = new Material(Shader.Find("Sprites/Default"));
@@ -80,7 +80,7 @@ public class BirdController : MonoBehaviour
             // 화면 조작
             isPanning = true;
             lastPanPosition = Input.mousePosition;
-            cameraFollow.EnableFollowTarget(false); // 화면 이동할때는 카메라 따라가기 비활성화 
+            cameraFollow.EnableFollowTarget(false); // 화면 이동할 때는 카메라 따라가기 비활성화
         }
     }
 
@@ -111,7 +111,7 @@ public class BirdController : MonoBehaviour
         StartCoroutine(WaitReloadBird());
 
         cameraFollow.FollowTarget(bird);
-        cameraFollow.EnableFollowTarget(true); // 발사할때는 카메라 따라가기 활성화
+        cameraFollow.EnableFollowTarget(true); // 발사할 때는 카메라 따라가기 활성화
         _renderer.positionCount = 0; // 궤적 초기화
     }
 
@@ -142,6 +142,7 @@ public class BirdController : MonoBehaviour
         CameraFollow.instance.FollowTarget(bird);
     }
 
+    // 궤적 생성
     private void UpdateTrajectory(Vector3 startPos, Vector3 launchVelocity)
     {
         int resolution = 30; // 궤적의 점 개수
@@ -154,7 +155,7 @@ public class BirdController : MonoBehaviour
             float t = i * timeStep;
             Vector3 position = startPos + launchVelocity * t + 0.5f * gravity * t * t;
 
-            // 충돌 검사
+            // 특정 레이아웃 충돌 검사
             RaycastHit2D hit = Physics2D.Raycast(startPos, position - startPos, (position - startPos).magnitude, collisionMask);
             if (hit.collider != null)
             {
