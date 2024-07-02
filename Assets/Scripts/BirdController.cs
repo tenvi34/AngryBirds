@@ -124,6 +124,7 @@ public class BirdController : MonoBehaviour
         lastPanPosition = currentPanPosition;
     }
     
+    // 리스폰 대기
     IEnumerator WaitReloadBird()
     {
         yield return new WaitForSeconds(respawnTime);
@@ -132,6 +133,7 @@ public class BirdController : MonoBehaviour
         Debug.Log("발사 준비 완료");
     }
 
+    // 리스폰
     void SpawnBird()
     {
         bird = Instantiate(birdPrefab, slingshot.position, Quaternion.identity).transform;
@@ -147,7 +149,7 @@ public class BirdController : MonoBehaviour
     {
         int resolution = 30; // 궤적의 점 개수
         float timeStep = 0.1f; // 각 점 사이의 시간 간격
-        Vector3 gravity = new Vector3(Physics2D.gravity.x, Physics2D.gravity.y, 0); // 2D 중력을 3D 벡터로 변환
+        Vector3 gravity = new Vector3(Physics2D.gravity.x, Physics2D.gravity.y, 0); // 2D gravity를 3D 벡터로 변환
 
         trajectoryPoints.Clear();
         for (int i = 0; i < resolution; i++)

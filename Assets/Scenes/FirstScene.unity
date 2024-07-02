@@ -1326,7 +1326,7 @@ Transform:
   m_GameObject: {fileID: 811385786}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.40403602, y: -0.7854602, z: -0.15741238}
+  m_LocalPosition: {x: -0.40403602, y: -0.7854602, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2029,7 +2029,7 @@ GameObject:
   - component: {fileID: 1067451903}
   - component: {fileID: 1067451904}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: BirdLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3309,7 +3309,7 @@ Transform:
   m_GameObject: {fileID: 1616406409}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -47.73, y: -7.04, z: 10}
+  m_LocalPosition: {x: -27.8, y: -7.04, z: 10}
   m_LocalScale: {x: 20, y: 20, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
