@@ -5,10 +5,12 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public static CameraFollow instance;
-    public Transform target; // 따라갈 타겟
+    public Transform target; // 타겟
     public float smoothing = 5f; // 카메라 이동 속도
 
-    private bool followTarget = true; // 타겟을 따라갈지 여부
+    public Vector3 offset; // 카메라 오프셋
+
+    private bool followTarget = true; // 타
 
     void Awake()
     {
@@ -26,8 +28,8 @@ public class CameraFollow : MonoBehaviour
     {
         if (followTarget && target != null)
         {
-            Vector3 targetCamPos = target.position;
-            targetCamPos.z = transform.position.z;
+            Vector3 targetCamPos = target.position + offset;
+            targetCamPos.z = transform.position.z; // z 축 고정
             transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
         }
     }
