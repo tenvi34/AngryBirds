@@ -11,6 +11,10 @@ public class BirdController : MonoBehaviour
     public float respawnTime = 3.0f; // 리스폰 대기 시간
     public float maxDragDistance = 2f; // 새를 당길 수 있는 최대 거리
 
+    public Vector3 initialBirdPosition = new Vector3(0, 0.7f, 0); // 새의 초기 위치
+    public Vector3 birdQueuePosition = new Vector3(-7, -0.7f, 0); // 새의 대기 위치
+    public float birdSpacing = 2f; // 새들 간의 간격
+
     private List<Transform> birds = new List<Transform>();
     private int currentBirdIndex = 0; // 현재 장전된 새의 인덱스
     private Vector3 startPoint; // 마우스 드래그 시작 지점
@@ -41,23 +45,23 @@ public class BirdController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼을 눌렀을 때
+        if (Input.GetMouseButtonDown(0)) // 마우스 좌클릭을 눌렀을 때
         {
             StartDrag();
         }
-        else if (Input.GetMouseButton(0) && isDragging) // 마우스 왼쪽 버튼을 누르고 있는 동안 새 장전
+        else if (Input.GetMouseButton(0) && isDragging) // 마우스 좌클릭을 누르고 있는 동안 새 장전
         {
             ContinueDrag();
         }
-        else if (Input.GetMouseButton(0) && isPanning) // 마우스 왼쪽 버튼을 누르고 있는 동안 화면 이동
+        else if (Input.GetMouseButton(0) && isPanning) // 마우스 좌클릭을 누르고 있는 동안 화면 이동
         {
             ContinuePan();
         }
-        else if (Input.GetMouseButtonUp(0) && isDragging) // 마우스 왼쪽 버튼을 땠을 때
+        else if (Input.GetMouseButtonUp(0) && isDragging) // 마우스 좌클릭을 땠을 때
         {
             ReleaseDrag();
         }
-        else if (Input.GetMouseButtonUp(0) && isPanning) // 마우스 왼쪽 버튼을 땠을 때 다시 새한테로
+        else if (Input.GetMouseButtonUp(0) && isPanning) // 마우스 좌클릭을 땠을 때 다시 새한테로
         {
             isPanning = false;
             cameraFollow.EnableFollowTarget(true);
@@ -65,7 +69,7 @@ public class BirdController : MonoBehaviour
 
         if (!isDragging && canLaunch)
         {
-            birds[currentBirdIndex].position = slingshot.position + Vector3.up * 0.5f; // 새를 새총 위치 위에 고정
+            birds[currentBirdIndex].position = slingshot.position + initialBirdPosition; // 새를 새총 위치 위에 고정
         }
     }
 
@@ -160,7 +164,8 @@ public class BirdController : MonoBehaviour
     {
         for (int i = 0; i < birdCount; i++)
         {
-            Transform bird = Instantiate(birdPrefab, slingshot.position + Vector3.up * 0.5f + Vector3.left * (i + 1), Quaternion.identity).transform; // 새를 새총 뒤로 배치
+            Vector3 spawnPosition = slingshot.position + birdQueuePosition + new Vector3(birdSpacing * i, 0, 0);
+            Transform bird = Instantiate(birdPrefab, spawnPosition, Quaternion.identity).transform; // 새를 새총 뒤로 배치
             bird.GetComponent<Rigidbody2D>().isKinematic = true;
             birds.Add(bird);
         }

@@ -2064,9 +2064,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slingshot: {fileID: 2034363024}
   birdPrefab: {fileID: 7755480202808066052, guid: bb122e2e421f81c4db2e7ef1569fa2c8, type: 3}
+  birdCount: 3
   launchForceMultiplier: 7
   respawnTime: 3
   maxDragDistance: 2
+  initialBirdPosition: {x: 0, y: 0.7, z: 0}
+  birdQueuePosition: {x: -7, y: -0.7, z: 0}
+  birdSpacing: 2
   _renderer: {fileID: 811385787}
   collisionMask:
     serializedVersion: 2
