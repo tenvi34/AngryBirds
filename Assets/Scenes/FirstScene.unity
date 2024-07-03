@@ -1983,7 +1983,7 @@ Transform:
   m_GameObject: {fileID: 1044438411}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -4.41}
+  m_LocalPosition: {x: -1.57, y: 0, z: -4.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2064,8 +2064,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slingshot: {fileID: 2034363024}
   birdPrefab: {fileID: 7755480202808066052, guid: bb122e2e421f81c4db2e7ef1569fa2c8, type: 3}
-  launchForceMultiplier: 10
+  launchForceMultiplier: 7
   respawnTime: 3
+  maxDragDistance: 2
   _renderer: {fileID: 811385787}
   collisionMask:
     serializedVersion: 2
@@ -3649,7 +3650,7 @@ Transform:
   m_GameObject: {fileID: 1946436968}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.73, y: 7.04, z: 0}
+  m_LocalPosition: {x: 47.73, y: 7.04, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

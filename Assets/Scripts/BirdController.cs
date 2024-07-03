@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +8,7 @@ public class BirdController : MonoBehaviour
     public Transform birdPrefab; // 발사할 새 프리팹
     public float launchForceMultiplier = 10f; // 발사 힘의 크기를 조절하는 변수
     public float respawnTime = 3.0f; // 리스폰 대기 시간
+    public float maxDragDistance = 2f; // 새를 당길 수 있는 최대 거리
 
     private Transform bird;
     private Vector3 startPoint; // 마우스 드래그 시작 지점
@@ -60,6 +60,11 @@ public class BirdController : MonoBehaviour
             isPanning = false;
             cameraFollow.EnableFollowTarget(true);
         }
+
+        if (!isDragging && canLaunch)
+        {
+            bird.position = slingshot.position + Vector3.up * 0.5f; // 새를 새총 위치 위에 고정
+        }
     }
 
     void StartDrag()
@@ -89,25 +94,31 @@ public class BirdController : MonoBehaviour
         Vector3 currentPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         currentPoint.z = 0;
 
-        Vector3 launchDir = startPoint - currentPoint;
-        Vector3 launchVel = launchDir * launchForceMultiplier;
-        
-        Debug.Log($"Start Point: {startPoint}, Current Point: {currentPoint}, Launch Velocity: {launchVel}"); // 디버그 로그 추가
+        Vector3 dragVector = currentPoint - slingshot.position;
+        if (dragVector.magnitude > maxDragDistance)
+        {
+            dragVector = dragVector.normalized * maxDragDistance;
+        }
 
+        Vector3 launchDir = slingshot.position - (slingshot.position + dragVector);
+        Vector3 launchVel = launchDir * launchForceMultiplier;
+
+        bird.position = slingshot.position + dragVector; // 새의 위치를 제한된 마우스 위치로 업데이트
         UpdateTrajectory(bird.position, launchVel);
     }
 
     void ReleaseDrag()
     {
         isDragging = false;
-        Vector3 launchDirection = startPoint - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        launchDirection.z = 0;
+        Vector3 releasePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        releasePoint.z = 0;
+        Vector3 launchDirection = slingshot.position - releasePoint;
 
         Rigidbody2D birdRigidbody = bird.GetComponent<Rigidbody2D>();
         birdRigidbody.isKinematic = false;
         birdRigidbody.AddForce(launchDirection * launchForceMultiplier, ForceMode2D.Impulse);
         canLaunch = false;
-        
+
         StartCoroutine(WaitReloadBird());
 
         cameraFollow.FollowTarget(bird);
@@ -123,7 +134,7 @@ public class BirdController : MonoBehaviour
         Camera.main.transform.position += difference;
         lastPanPosition = currentPanPosition;
     }
-    
+
     // 리스폰 대기
     IEnumerator WaitReloadBird()
     {
@@ -136,10 +147,7 @@ public class BirdController : MonoBehaviour
     // 리스폰
     void SpawnBird()
     {
-        bird = Instantiate(birdPrefab, slingshot.position, Quaternion.identity).transform;
-        var vector3 = bird.position;
-        vector3.y = -1.23f;
-        bird.position = vector3;
+        bird = Instantiate(birdPrefab, slingshot.position + Vector3.up * 0.5f, Quaternion.identity).transform; // 새를 새총 위로 약간 올려서 생성
         bird.GetComponent<Rigidbody2D>().isKinematic = true;
         CameraFollow.instance.FollowTarget(bird);
     }
