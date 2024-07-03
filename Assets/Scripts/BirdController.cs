@@ -6,11 +6,13 @@ public class BirdController : MonoBehaviour
 {
     public Transform slingshot; // 새총 오브젝트
     public Transform birdPrefab; // 발사할 새 프리팹
+    public int birdCount = 3; // 새의 개수
     public float launchForceMultiplier = 10f; // 발사 힘의 크기를 조절하는 변수
     public float respawnTime = 3.0f; // 리스폰 대기 시간
     public float maxDragDistance = 2f; // 새를 당길 수 있는 최대 거리
 
-    private Transform bird;
+    private List<Transform> birds = new List<Transform>();
+    private int currentBirdIndex = 0; // 현재 장전된 새의 인덱스
     private Vector3 startPoint; // 마우스 드래그 시작 지점
     private bool isDragging = false; // 드래그 상태 확인
     private bool isPanning = false; // 화면 이동 상태 확인
@@ -27,7 +29,7 @@ public class BirdController : MonoBehaviour
     void Start()
     {
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        SpawnBird();
+        SpawnBirds();
 
         // LineRenderer 설정 -> 임시 테스트 코드라 추후 Inspector 창에서 재설정 할 예정
         _renderer.startWidth = 0.1f;
@@ -63,7 +65,7 @@ public class BirdController : MonoBehaviour
 
         if (!isDragging && canLaunch)
         {
-            bird.position = slingshot.position + Vector3.up * 0.5f; // 새를 새총 위치 위에 고정
+            birds[currentBirdIndex].position = slingshot.position + Vector3.up * 0.5f; // 새를 새총 위치 위에 고정
         }
     }
 
@@ -72,7 +74,7 @@ public class BirdController : MonoBehaviour
         startPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         startPoint.z = 0;
 
-        if (canLaunch && Vector3.Distance(startPoint, bird.position) < 1f)
+        if (canLaunch && Vector3.Distance(startPoint, birds[currentBirdIndex].position) < 1f)
         {
             isDragging = true;
         }
@@ -103,8 +105,8 @@ public class BirdController : MonoBehaviour
         Vector3 launchDir = slingshot.position - (slingshot.position + dragVector);
         Vector3 launchVel = launchDir * launchForceMultiplier;
 
-        bird.position = slingshot.position + dragVector; // 새의 위치를 제한된 마우스 위치로 업데이트
-        UpdateTrajectory(bird.position, launchVel);
+        birds[currentBirdIndex].position = slingshot.position + dragVector; // 새의 위치를 제한된 마우스 위치로 업데이트
+        UpdateTrajectory(birds[currentBirdIndex].position, launchVel);
     }
 
     void ReleaseDrag()
@@ -114,14 +116,14 @@ public class BirdController : MonoBehaviour
         releasePoint.z = 0;
         Vector3 launchDirection = slingshot.position - releasePoint;
 
-        Rigidbody2D birdRigidbody = bird.GetComponent<Rigidbody2D>();
+        Rigidbody2D birdRigidbody = birds[currentBirdIndex].GetComponent<Rigidbody2D>();
         birdRigidbody.isKinematic = false;
         birdRigidbody.AddForce(launchDirection * launchForceMultiplier, ForceMode2D.Impulse);
         canLaunch = false;
 
         StartCoroutine(WaitReloadBird());
 
-        cameraFollow.FollowTarget(bird);
+        cameraFollow.FollowTarget(birds[currentBirdIndex]);
         cameraFollow.EnableFollowTarget(true); // 발사할 때는 카메라 따라가기 활성화
         _renderer.positionCount = 0; // 궤적 초기화
     }
@@ -140,16 +142,31 @@ public class BirdController : MonoBehaviour
     {
         yield return new WaitForSeconds(respawnTime);
         canLaunch = true;
-        SpawnBird();
+        if (currentBirdIndex < birds.Count - 1)
+        {
+            currentBirdIndex++;
+            cameraFollow.FollowTarget(birds[currentBirdIndex]); // 새로운 새가 장전될 때 카메라가 따라가도록 설정
+            cameraFollow.EnableFollowTarget(true);
+        }
+        else
+        {
+            Debug.Log("모든 새 발사 완료");
+        }
         Debug.Log("발사 준비 완료");
     }
 
     // 리스폰
-    void SpawnBird()
+    void SpawnBirds()
     {
-        bird = Instantiate(birdPrefab, slingshot.position + Vector3.up * 0.5f, Quaternion.identity).transform; // 새를 새총 위로 약간 올려서 생성
-        bird.GetComponent<Rigidbody2D>().isKinematic = true;
-        CameraFollow.instance.FollowTarget(bird);
+        for (int i = 0; i < birdCount; i++)
+        {
+            Transform bird = Instantiate(birdPrefab, slingshot.position + Vector3.up * 0.5f + Vector3.left * (i + 1), Quaternion.identity).transform; // 새를 새총 뒤로 배치
+            bird.GetComponent<Rigidbody2D>().isKinematic = true;
+            birds.Add(bird);
+        }
+
+        currentBirdIndex = 0;
+        cameraFollow.FollowTarget(birds[currentBirdIndex]);
     }
 
     // 궤적 생성
