@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6621232984330806002}
   m_Layer: 0
   m_Name: blocks_0
-  m_TagString: Untagged
+  m_TagString: WoodBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

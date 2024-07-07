@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - UI Camera
+  - Bird
+  - Pig
+  - WoodBlock
+  - StoneBlock
   layers:
   - Default
   - TransparentFX

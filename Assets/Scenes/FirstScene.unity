@@ -134,13 +134,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pig
       objectReference: {fileID: 0}
+    - target: {fileID: 4191035844481422789, guid: 39e61e29322ce604b97704a963670024, type: 3}
+      propertyPath: m_TagString
+      value: Pig
+      objectReference: {fileID: 0}
     - target: {fileID: 8248629059138597576, guid: 39e61e29322ce604b97704a963670024, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.5546856
+      value: 3.48
       objectReference: {fileID: 0}
     - target: {fileID: 8248629059138597576, guid: 39e61e29322ce604b97704a963670024, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.05
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 8248629059138597576, guid: 39e61e29322ce604b97704a963670024, type: 3}
       propertyPath: m_LocalPosition.z
@@ -695,13 +699,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pig (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4191035844481422789, guid: 39e61e29322ce604b97704a963670024, type: 3}
+      propertyPath: m_TagString
+      value: Pig
+      objectReference: {fileID: 0}
     - target: {fileID: 8248629059138597576, guid: 39e61e29322ce604b97704a963670024, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.5546856
+      value: 3.4799995
       objectReference: {fileID: 0}
     - target: {fileID: 8248629059138597576, guid: 39e61e29322ce604b97704a963670024, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.35
+      value: -1.26
       objectReference: {fileID: 0}
     - target: {fileID: 8248629059138597576, guid: 39e61e29322ce604b97704a963670024, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2030,7 +2038,7 @@ GameObject:
   - component: {fileID: 1067451904}
   m_Layer: 0
   m_Name: BirdLauncher
-  m_TagString: Untagged
+  m_TagString: Bird
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2171,13 +2179,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pig (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4191035844481422789, guid: 39e61e29322ce604b97704a963670024, type: 3}
+      propertyPath: m_TagString
+      value: Pig
+      objectReference: {fileID: 0}
     - target: {fileID: 8248629059138597576, guid: 39e61e29322ce604b97704a963670024, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.5546856
+      value: 3.4799995
       objectReference: {fileID: 0}
     - target: {fileID: 8248629059138597576, guid: 39e61e29322ce604b97704a963670024, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.69
+      value: -2.6000001
       objectReference: {fileID: 0}
     - target: {fileID: 8248629059138597576, guid: 39e61e29322ce604b97704a963670024, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2310,11 +2322,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3361523402397691860, guid: e7032118637d0614499336b456ab96ea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.54
+      value: 3.465313
       objectReference: {fileID: 0}
     - target: {fileID: 3361523402397691860, guid: e7032118637d0614499336b456ab96ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.19
+      value: 1.2800001
       objectReference: {fileID: 0}
     - target: {fileID: 3361523402397691860, guid: e7032118637d0614499336b456ab96ea, type: 3}
       propertyPath: m_LocalPosition.z

@@ -1,0 +1,59 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PigController : MonoBehaviour
+{
+    public float maxHp = 100f;
+    private float _currentHp;
+    
+    void Start()
+    {
+        _currentHp = maxHp;
+        Debug.Log("돼지 소환");
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Collision 감지: " + collision.gameObject.name);
+        
+        // 새와 충돌 시
+        if (collision.gameObject.CompareTag("Bird"))
+        {
+            float damage = collision.relativeVelocity.magnitude * 10;
+            TakeDamage(damage);
+            Debug.Log("Bird Damage: " + damage);
+        }
+        // 나무 블럭과 충돌 시
+        else if (collision.gameObject.CompareTag("WoodBlock"))
+        {
+            float damage = 30;
+            TakeDamage(damage);
+            Debug.Log("WoodBlock Damage: " + damage);
+        }
+        // 돌 블럭과 충돌 시
+        else if (collision.gameObject.CompareTag("StoneBlock"))
+        {
+            float damage = 30;
+            TakeDamage(damage);
+            Debug.Log("StoneBlock Damage: " + damage);
+        }
+    }
+
+    void TakeDamage(float damage)
+    {
+        _currentHp -= damage;
+        if (_currentHp <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        // 애니메이션, 오디오, 파티클 등 설정
+        Destroy(gameObject);
+        Debug.Log("돼지 삭제");
+    }
+}
