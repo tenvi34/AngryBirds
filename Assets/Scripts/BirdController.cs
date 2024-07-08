@@ -25,6 +25,8 @@ public class BirdController : MonoBehaviour
 
     private CameraFollow cameraFollow;
 
+    private AudioSource _audioSource;
+
     // 라인렌더러
     public LineRenderer _renderer;
     private List<Vector3> trajectoryPoints = new List<Vector3>();
@@ -33,6 +35,8 @@ public class BirdController : MonoBehaviour
     void Start()
     {
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
+        _audioSource = GetComponent<AudioSource>();
+        
         SpawnBirds();
 
         // LineRenderer 설정 -> 임시 테스트 코드라 추후 Inspector 창에서 재설정 할 예정
@@ -124,6 +128,13 @@ public class BirdController : MonoBehaviour
         birdRigidbody.isKinematic = false;
         birdRigidbody.AddForce(launchDirection * launchForceMultiplier, ForceMode2D.Impulse);
         canLaunch = false;
+        Debug.Log("날아가는 중");
+        
+        if (_audioSource != null)
+        {
+            _audioSource.Play();
+            Debug.Log("소리 재생");
+        }
 
         StartCoroutine(WaitReloadBird());
 
