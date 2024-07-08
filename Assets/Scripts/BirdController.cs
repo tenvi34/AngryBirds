@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BirdController : MonoBehaviour
 {
@@ -25,7 +27,8 @@ public class BirdController : MonoBehaviour
 
     private CameraFollow cameraFollow;
 
-    private AudioSource _audioSource;
+    public AudioSource shotAudioSource; // 발사할 때 재생
+    public AudioSource collisionAudioSource; // 충돌할 때 재생
 
     // 라인렌더러
     public LineRenderer _renderer;
@@ -35,7 +38,7 @@ public class BirdController : MonoBehaviour
     void Start()
     {
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        _audioSource = GetComponent<AudioSource>();
+        shotAudioSource = GetComponent<AudioSource>();
         
         SpawnBirds();
 
@@ -130,9 +133,9 @@ public class BirdController : MonoBehaviour
         canLaunch = false;
         Debug.Log("날아가는 중");
         
-        if (_audioSource != null)
+        if (shotAudioSource != null)
         {
-            _audioSource.Play();
+            shotAudioSource.Play();
             Debug.Log("소리 재생");
         }
 
@@ -213,5 +216,15 @@ public class BirdController : MonoBehaviour
 
         _renderer.positionCount = trajectoryPoints.Count;
         _renderer.SetPositions(trajectoryPoints.ToArray());
+    }
+
+    // 블럭과 충돌 시 오디오 재생
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collisionAudioSource != null)
+        {
+            collisionAudioSource.Play();
+            Debug.Log("블럭과 충돌");
+        }
     }
 }
