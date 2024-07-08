@@ -3,13 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PigController : MonoBehaviour
+public class KingPigController : MonoBehaviour
 {
     public float maxHp = 200f;
     private float _currentHp;
 
     // 폭발 이펙트
     public GameObject explosionEffect;
+    
+    // 데미지버전 돼지
+    public GameObject damagedKingPig;
+    private bool isDamaged = false; // 데미지입은 상태 확인
     
     void Start()
     {
@@ -51,6 +55,20 @@ public class PigController : MonoBehaviour
         {
             Die();
         }
+        else if (_currentHp <= 100 & !isDamaged)
+        {
+            ChangeDamagedPig();
+        }
+    }
+
+    void ChangeDamagedPig()
+    {
+        Vector3 currentPosition = transform.position;
+        Quaternion currentRotation = transform.rotation;
+        
+        Destroy(gameObject); // 기존 멀쩡한 돼지 삭제
+        Instantiate(damagedKingPig, currentPosition, currentRotation); // 데미지 버전으로 교체
+        isDamaged = true;
     }
 
     void Die()

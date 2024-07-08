@@ -55,7 +55,7 @@ public class BirdController : MonoBehaviour
         }
         else if (Input.GetMouseButton(0) && isDragging) // 마우스 좌클릭을 누르고 있는 동안 새 장전
         {
-            ContinueDrag();
+            ContinueDrag(); // 조준
         }
         else if (Input.GetMouseButton(0) && isPanning) // 마우스 좌클릭을 누르고 있는 동안 화면 이동
         {
@@ -63,7 +63,7 @@ public class BirdController : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0) && isDragging) // 마우스 좌클릭을 땠을 때
         {
-            ReleaseDrag();
+            ReleaseDrag(); // 발사
         }
         else if (Input.GetMouseButtonUp(0) && isPanning) // 마우스 좌클릭을 땠을 때 다시 새한테로
         {
