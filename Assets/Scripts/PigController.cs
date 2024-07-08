@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PigController : MonoBehaviour
 {
-    public float maxHp = 100f;
+    public float maxHp = 200f;
     private float _currentHp;
 
     // 폭발 이펙트
