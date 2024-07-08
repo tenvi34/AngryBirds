@@ -7,6 +7,9 @@ public class PigController : MonoBehaviour
 {
     public float maxHp = 100f;
     private float _currentHp;
+
+    // 폭발 이펙트
+    public GameObject explosionEffect;
     
     void Start()
     {
@@ -53,6 +56,7 @@ public class PigController : MonoBehaviour
     void Die()
     {
         // 애니메이션, 오디오, 파티클 등 설정
+        Instantiate(explosionEffect, transform.position, transform.rotation);
         Destroy(gameObject);
         Debug.Log("돼지 삭제");
     }

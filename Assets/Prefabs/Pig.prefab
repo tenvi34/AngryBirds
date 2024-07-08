@@ -184,3 +184,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 100
+  explosionEffect: {fileID: 8492175408086380750, guid: be4baa23c4c91554b985060fcc745c49, type: 3}

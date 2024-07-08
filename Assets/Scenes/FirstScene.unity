@@ -130,6 +130,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 700543097123673958, guid: 39e61e29322ce604b97704a963670024, type: 3}
+      propertyPath: explosionEffect
+      value: 
+      objectReference: {fileID: 8492175408086380750, guid: be4baa23c4c91554b985060fcc745c49, type: 3}
     - target: {fileID: 4191035844481422789, guid: 39e61e29322ce604b97704a963670024, type: 3}
       propertyPath: m_Name
       value: Pig
