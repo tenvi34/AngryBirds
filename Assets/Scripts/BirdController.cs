@@ -166,9 +166,14 @@ public class BirdController : MonoBehaviour
             cameraFollow.FollowTarget(birds[currentBirdIndex]); // 새로운 새가 장전될 때 카메라가 따라가도록 설정
             cameraFollow.EnableFollowTarget(true);
         }
-        else
+        else // 새의 숫자만큼 발사가 끝났을 때
         {
             Debug.Log("모든 새 발사 완료");
+            canLaunch = false;
+            cameraFollow.EnableFollowTarget(false);
+            // 게임 오버 화면 추가
+            // -> 
+            
         }
         Debug.Log("발사 준비 완료");
     }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9095429714679996251}
   - component: {fileID: 7386917371269908093}
   - component: {fileID: -7265819203955325939}
+  - component: {fileID: 2532850910542806022}
   m_Layer: 7
   m_Name: blocks_8
   m_TagString: WoodBlock
@@ -158,3 +159,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2532850910542806022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9012885401372910915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c4dc076a83c8314197391a89e567c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 75
+  breakEffect: {fileID: 5109669490112925613, guid: 4b77032c1aaf4b24582a1892b96e8030, type: 3}

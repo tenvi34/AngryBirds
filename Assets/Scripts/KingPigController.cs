@@ -10,21 +10,22 @@ public class KingPigController : MonoBehaviour
 
     // 폭발 이펙트
     public GameObject explosionEffect;
-    
+
     // 데미지버전 돼지
     public GameObject damagedKingPig;
-    private bool isDamaged = false; // 데미지입은 상태 확인
-    
+    private bool isDamaged = false; // 데미지 입은 상태 확인
+
     void Start()
     {
         _currentHp = maxHp;
-        Debug.Log("돼지 소환");
+        GameManager.Instance.AddPig(this);
+        Debug.Log("킹돼지 소환");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Collision 감지: " + collision.gameObject.name);
-        
+
         // 새와 충돌 시
         if (collision.gameObject.CompareTag("Bird"))
         {
@@ -46,6 +47,13 @@ public class KingPigController : MonoBehaviour
             TakeDamage(damage);
             Debug.Log("StoneBlock Damage: " + damage);
         }
+        // 기타 충돌 시(ex: 바닥 등)
+        else
+        {
+            float damage = collision.relativeVelocity.magnitude * 3;
+            TakeDamage(damage);
+            Debug.Log("Other Damage: " + damage);
+        }
     }
 
     void TakeDamage(float damage)
@@ -55,7 +63,7 @@ public class KingPigController : MonoBehaviour
         {
             Die();
         }
-        else if (_currentHp <= 100 & !isDamaged)
+        else if (_currentHp <= 100 && !isDamaged)
         {
             ChangeDamagedPig();
         }
@@ -63,12 +71,25 @@ public class KingPigController : MonoBehaviour
 
     void ChangeDamagedPig()
     {
+        if (isDamaged) return;  // 중복 호출 방지
+        isDamaged = true;  // 중복 호출 방지 플래그 설정
+
         Vector3 currentPosition = transform.position;
         Quaternion currentRotation = transform.rotation;
-        
-        Destroy(gameObject); // 기존 멀쩡한 돼지 삭제
-        Instantiate(damagedKingPig, currentPosition, currentRotation); // 데미지 버전으로 교체
-        isDamaged = true;
+
+        // 새로운 damagedKingPig 생성
+        GameObject newPig = Instantiate(damagedKingPig, currentPosition, currentRotation);
+        KingPigController newPigController = newPig.GetComponent<KingPigController>();
+
+        // 새로운 damagedKingPig의 현재 체력을 유지
+        newPigController._currentHp = _currentHp;
+
+        // 새로운 damagedKingPig 등록
+        GameManager.Instance.AddPig(newPigController);
+
+        // 기존 KingPig 삭제 알림 및 오브젝트 삭제
+        GameManager.Instance.PigDestroyed(this);
+        Destroy(gameObject);
     }
 
     void Die()
@@ -76,6 +97,8 @@ public class KingPigController : MonoBehaviour
         // 애니메이션, 오디오, 파티클 등 설정
         Instantiate(explosionEffect, transform.position, transform.rotation); // 폭발 이펙트 생성
         Destroy(gameObject);
-        Debug.Log("돼지 삭제");
+        Debug.Log("킹돼지 삭제");
+
+        GameManager.Instance.PigDestroyed(this);
     }
 }

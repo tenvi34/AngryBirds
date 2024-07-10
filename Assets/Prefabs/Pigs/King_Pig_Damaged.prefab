@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7678885456448091393}
   - component: {fileID: 8514401688354505241}
   - component: {fileID: 48180498024791681}
-  - component: {fileID: 7066560067074374433}
+  - component: {fileID: 7530903478775485507}
   m_Layer: 0
   m_Name: King_Pig_Damaged
   m_TagString: Untagged
@@ -171,7 +171,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7066560067074374433
+--- !u!114 &7530903478775485507
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,9 +180,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7864507848925350202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c19ba6935449c404b846e794936c6028, type: 3}
+  m_Script: {fileID: 11500000, guid: 962c0b7c669b60c4094216b2b382a24e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 100
+  maxHp: 200
   explosionEffect: {fileID: 2638991937041499696, guid: db7553eb4f674ca44a3ed190b28de4e9, type: 3}
   damagedKingPig: {fileID: 7864507848925350202}

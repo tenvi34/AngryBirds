@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7587279511500195924}
   - component: {fileID: 6502844204096552295}
   - component: {fileID: 3962269633483266809}
+  - component: {fileID: -8286868329140150055}
   m_Layer: 7
   m_Name: blocks_4
   m_TagString: RockBlock
@@ -148,3 +149,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-8286868329140150055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8262394122258194079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c4dc076a83c8314197391a89e567c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 75
+  breakEffect: {fileID: 5109669490112925613, guid: 4b77032c1aaf4b24582a1892b96e8030, type: 3}
