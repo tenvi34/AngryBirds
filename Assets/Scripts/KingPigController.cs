@@ -18,7 +18,7 @@ public class KingPigController : MonoBehaviour
     void Start()
     {
         _currentHp = maxHp;
-        GameManager.Instance.AddPig(this);
+        // GameManager.Instance.AddPig(this);
         // Debug.Log("킹돼지 소환");
     }
 

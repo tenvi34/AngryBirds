@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Serialization;
 
 public class BirdController : MonoBehaviour
@@ -13,7 +14,7 @@ public class BirdController : MonoBehaviour
     public float respawnTime = 3.0f; // 리스폰 대기 시간
     public float maxDragDistance = 2f; // 새를 당길 수 있는 최대 거리
 
-    public Vector3 initialBirdPosition = new Vector3(0, 0.7f, 0); // 새의 초기 위치
+    public Vector3 initialBirdPosition = new Vector3(-0.2f, 0.7f, 0); // 새의 초기 위치
     public Vector3 birdQueuePosition = new Vector3(-7, -0.7f, 0); // 새의 대기 위치
     public float birdSpacing = 2f; // 새들 간의 간격
 
@@ -35,6 +36,9 @@ public class BirdController : MonoBehaviour
     private List<Vector3> trajectoryPoints = new List<Vector3>();
     public LayerMask collisionMask; // 설정한 레이아웃에만 충돌 감지
 
+    public GameObject gameOverImage; // 게임 오버 이미지
+    public float gameOverAnimationDuration = 2f; // 게임 오버 이미지가 커지는 데 걸리는 시간
+
     void Start()
     {
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
@@ -48,6 +52,9 @@ public class BirdController : MonoBehaviour
         _renderer.material = new Material(Shader.Find("Sprites/Default"));
         _renderer.startColor = Color.red;
         _renderer.endColor = Color.yellow;
+
+        // GameOver 이미지 초기 상태 비활성화
+        gameOverImage.SetActive(false);
     }
 
     void Update()
@@ -171,12 +178,37 @@ public class BirdController : MonoBehaviour
             Debug.Log("모든 새 발사 완료");
             canLaunch = false;
             cameraFollow.EnableFollowTarget(false);
-            // 게임 오버 화면 추가
-            // -> 
-            
+            StartCoroutine(ShowGameOver());
         }
         Debug.Log("발사 준비 완료");
     }
+
+    // 게임 오버 화면을 점점 키우는 코루틴
+    IEnumerator ShowGameOver()
+    {
+        // 게임 오버 이미지를 카메라 중심에 맞추기
+        RectTransform rectTransform = gameOverImage.GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = Vector2.zero; // 화면 중심으로 설정
+        gameOverImage.SetActive(true);
+        rectTransform.localScale = Vector3.zero; // 초기 크기를 0으로 설정
+
+        float elapsedTime = 0f;
+        while (elapsedTime < gameOverAnimationDuration)
+        {
+            rectTransform.localScale = Vector3.Lerp(Vector3.zero, new Vector3(3f, 3f, 3f), elapsedTime / gameOverAnimationDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // 크기 설정
+        rectTransform.localScale = new Vector3(3f, 3f, 3f);
+
+        // 게임 오버 상태에서 게임을 멈춤
+        Time.timeScale = 0f;
+        
+        Debug.Log("게임 오버");
+    }
+
 
     // 리스폰
     void SpawnBirds()
