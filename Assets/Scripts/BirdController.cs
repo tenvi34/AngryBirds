@@ -131,12 +131,12 @@ public class BirdController : MonoBehaviour
         birdRigidbody.isKinematic = false;
         birdRigidbody.AddForce(launchDirection * launchForceMultiplier, ForceMode2D.Impulse);
         canLaunch = false;
-        Debug.Log("날아가는 중");
+        // Debug.Log("날아가는 중");
         
         if (shotAudioSource != null)
         {
             shotAudioSource.Play();
-            Debug.Log("소리 재생");
+            // Debug.Log("소리 재생");
         }
 
         StartCoroutine(WaitReloadBird());
@@ -229,7 +229,7 @@ public class BirdController : MonoBehaviour
         if (collisionAudioSource != null)
         {
             collisionAudioSource.Play();
-            Debug.Log("블럭과 충돌");
+            // Debug.Log("블럭과 충돌");
         }
     }
 }

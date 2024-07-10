@@ -66,7 +66,7 @@ public class PigController : MonoBehaviour
         // 애니메이션, 오디오, 파티클 등 설정
         Instantiate(explosionEffect, transform.position, transform.rotation); // 폭발 이펙트 생성
         Destroy(gameObject);
-        Debug.Log("돼지 삭제");
+        // Debug.Log("돼지 삭제");
         
         GameManager.Instance.PigDestroyed(this);
     }
