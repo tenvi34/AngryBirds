@@ -18,7 +18,7 @@ public class KingPigController : MonoBehaviour
     void Start()
     {
         _currentHp = maxHp;
-        // GameManager.Instance.AddPig(this);
+        GameManager.Instance.AddPig(this);
         // Debug.Log("킹돼지 소환");
     }
 
@@ -77,6 +77,9 @@ public class KingPigController : MonoBehaviour
         Vector3 currentPosition = transform.position;
         Quaternion currentRotation = transform.rotation;
 
+        // 기존 KingPig 제거 알림
+        GameManager.Instance.PigDestroyed(this);
+
         // 새로운 damagedKingPig 생성
         GameObject newPig = Instantiate(damagedKingPig, currentPosition, currentRotation);
         KingPigController newPigController = newPig.GetComponent<KingPigController>();
@@ -84,12 +87,11 @@ public class KingPigController : MonoBehaviour
         // 새로운 damagedKingPig의 현재 체력을 유지
         newPigController._currentHp = _currentHp;
 
+        // 기존 KingPig 오브젝트 삭제
+        Destroy(gameObject);
+
         // 새로운 damagedKingPig 등록
         GameManager.Instance.AddPig(newPigController);
-
-        // 기존 KingPig 삭제 알림 및 오브젝트 삭제
-        GameManager.Instance.PigDestroyed(this);
-        Destroy(gameObject);
     }
 
     void Die()

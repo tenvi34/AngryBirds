@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class BirdController : MonoBehaviour
 {
@@ -36,6 +36,11 @@ public class BirdController : MonoBehaviour
     private List<Vector3> trajectoryPoints = new List<Vector3>();
     public LayerMask collisionMask; // 설정한 레이아웃에만 충돌 감지
 
+    public GameObject gameWinPanel; // 게임 승리 패널
+    public GameObject gameWinImage; // 게임 승리 이미지
+    public Button retryButton; // 다시하기 버튼
+    public Button mainMenuButton; // 메인 메뉴 버튼
+    public Button nextLevelButton; // 다음 레벨 버튼
     public GameObject gameOverImage; // 게임 오버 이미지
     public float gameOverAnimationDuration = 2f; // 게임 오버 이미지가 커지는 데 걸리는 시간
 
@@ -53,8 +58,14 @@ public class BirdController : MonoBehaviour
         _renderer.startColor = Color.red;
         _renderer.endColor = Color.yellow;
 
-        // GameOver 이미지 초기 상태 비활성화
+        // GameOver, GameWin 패널 초기 상태 비활성화
         gameOverImage.SetActive(false);
+        gameWinPanel.SetActive(false);
+
+        // 버튼 클릭 이벤트 등록
+        retryButton.onClick.AddListener(OnRetryButtonClicked);
+        mainMenuButton.onClick.AddListener(OnMainMenuButtonClicked);
+        nextLevelButton.onClick.AddListener(OnNextLevelButtonClicked);
     }
 
     void Update()
@@ -85,6 +96,9 @@ public class BirdController : MonoBehaviour
         {
             birds[currentBirdIndex].position = slingshot.position + initialBirdPosition; // 새를 새총 위치 위에 고정
         }
+
+        // 매 프레임마다 돼지의 상태를 확인
+        CheckGameOver_NextScene();
     }
 
     void StartDrag()
@@ -178,15 +192,31 @@ public class BirdController : MonoBehaviour
             Debug.Log("모든 새 발사 완료");
             canLaunch = false;
             cameraFollow.EnableFollowTarget(false);
-            StartCoroutine(ShowGameOver());
+        
+            // 일정 시간 대기 후 게임 오버 조건 체크
+            StartCoroutine(CheckGameOverAfterDelay(5.0f)); // 5초 대기 후 체크
         }
         Debug.Log("발사 준비 완료");
     }
 
+    IEnumerator CheckGameOverAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        bool checkAllPig = GameManager.Instance.CheckAllPigDestroyed();
+
+        if (!checkAllPig)
+        {
+            Debug.Log("돼지 승리, 게임 오버");
+            StartCoroutine(ShowGameOver());
+        }
+    }
+
+
+
     // 게임 오버 화면을 점점 키우는 코루틴
     IEnumerator ShowGameOver()
     {
-        // 게임 오버 이미지를 카메라 중심에 맞추기
         RectTransform rectTransform = gameOverImage.GetComponent<RectTransform>();
         rectTransform.anchoredPosition = Vector2.zero; // 화면 중심으로 설정
         gameOverImage.SetActive(true);
@@ -208,7 +238,80 @@ public class BirdController : MonoBehaviour
         
         Debug.Log("게임 오버");
     }
+    
+    IEnumerator ShowGameWin()
+    {
+        // 1초 대기
+        yield return new WaitForSeconds(1f);
 
+        gameWinPanel.SetActive(true); // 게임 승리 패널 활성화
+
+        // 게임 오버 상태에서 게임을 멈춤
+        Time.timeScale = 0f;
+
+        Debug.Log("게임 승리");
+    }
+    
+    // IEnumerator ShowGameWin()
+    // {
+    //     // 1초 대기
+    //     yield return new WaitForSeconds(1f);
+    //
+    //     gameWinPanel.SetActive(true); // 게임 승리 패널 활성화
+    //     RectTransform rectTransform = gameWinImage.GetComponent<RectTransform>();
+    //
+    //     // 크기와 위치를 설정
+    //     rectTransform.anchoredPosition = Vector2.zero; // 화면 중심으로 설정
+    //     rectTransform.localScale = Vector3.one;
+    //
+    //     float elapsedTime = 0f;
+    //     while (elapsedTime < gameOverAnimationDuration)
+    //     {
+    //         rectTransform.localScale = Vector3.Lerp(Vector3.one * 0.01f, Vector3.one, elapsedTime / gameOverAnimationDuration);
+    //         elapsedTime += Time.deltaTime;
+    //         yield return null;
+    //     }
+    //
+    //     // 최종 크기 설정
+    //     rectTransform.localScale = Vector3.one * 10;
+    //
+    //     // 게임 오버 상태에서 게임을 멈춤
+    //     Time.timeScale = 0f;
+    //
+    //     Debug.Log("게임 승리");
+    // }
+
+
+    void CheckGameOver_NextScene()
+    {
+        bool checkAllPig = GameManager.Instance.CheckAllPigDestroyed();
+
+        if (checkAllPig)
+        {
+            Debug.Log("모든 돼지 제거 완료. 다음 스테이지로 이동");
+            StartCoroutine(ShowGameWin());
+        }
+    }
+
+
+    // 버튼 클릭 이벤트 핸들러
+    void OnRetryButtonClicked()
+    {
+        Time.timeScale = 1f; // 게임 시간 재개
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // 현재 씬 다시 로드
+    }
+
+    void OnMainMenuButtonClicked()
+    {
+        Time.timeScale = 1f; // 게임 시간 재개
+        SceneManager.LoadScene("MainMenuScene");
+    }
+
+    void OnNextLevelButtonClicked()
+    {
+        Time.timeScale = 1f; // 게임 시간 재개
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // 다음 씬으로 이동
+    }
 
     // 리스폰
     void SpawnBirds()

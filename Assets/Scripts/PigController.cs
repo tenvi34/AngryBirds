@@ -15,7 +15,7 @@ public class PigController : MonoBehaviour
     {
         _currentHp = maxHp;
         GameManager.Instance.AddPig(this);
-        // Debug.Log("돼지 소환");
+        Debug.Log("돼지 소환");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
