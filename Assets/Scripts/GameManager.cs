@@ -31,10 +31,10 @@ public class GameManager : MonoBehaviour
     {
         pigs.Remove(pig);
         Debug.Log("돼지 제거. 남은 돼지 수: " + pigs.Count);
-        if (pigs.Count == 0)
-        {
-            LoadNextScene();
-        }
+        // if (pigs.Count == 0)
+        // {
+        //     LoadNextScene();
+        // }
     }
 
     public bool CheckAllPigDestroyed()
