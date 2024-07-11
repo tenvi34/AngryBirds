@@ -281,7 +281,6 @@ public class BirdController : MonoBehaviour
     //     Debug.Log("게임 승리");
     // }
 
-
     void CheckGameOver_NextScene()
     {
         bool checkAllPig = GameManager.Instance.CheckAllPigDestroyed();
@@ -292,13 +291,11 @@ public class BirdController : MonoBehaviour
             StartCoroutine(ShowGameWin());
         }
     }
-
-
-    // 버튼 클릭 이벤트 핸들러
+    
     void OnRetryButtonClicked()
     {
         Time.timeScale = 1f; // 게임 시간 재개
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // 현재 씬 다시 로드
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // 현재 Scene 다시
     }
 
     void OnMainMenuButtonClicked()
@@ -310,7 +307,7 @@ public class BirdController : MonoBehaviour
     void OnNextLevelButtonClicked()
     {
         Time.timeScale = 1f; // 게임 시간 재개
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // 다음 씬으로 이동
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // 다음 Scene으로 이동
     }
 
     // 리스폰
